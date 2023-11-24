@@ -10,7 +10,7 @@ const home = async (req, res) => {
 
 const register = async (req, res) => {
     try {
-        res.send("register success");
+        res.json({message : req.body});
     } catch (error) {
         console.log(error);
     }
