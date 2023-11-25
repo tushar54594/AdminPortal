@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
 //secure the password using bcrypt
 
 //db me data save hone se pehle ye funtion chalega
-userSchema.pre('save', async function(next){
+userSchema.pre('save', async function(){
     const user = this; //all the current data
 
     // if(!user.isModified("password")){
@@ -43,6 +43,14 @@ userSchema.pre('save', async function(next){
     //     next(error);
     // }
 })
+
+
+//compare password
+userSchema.methods.comparePassword = async function(password){
+    return bcrypt.compare(password, this.password);
+}
+
+
 
 //Components of JWT
 /*
