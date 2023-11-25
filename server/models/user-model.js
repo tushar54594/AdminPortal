@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken")
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -43,6 +44,33 @@ userSchema.pre('save', async function(next){
     // }
 })
 
+//Components of JWT
+/*
+1.Header
+2.Payload
+3.Signature
+*/
+
+
+//json web token
+//not stored in db. issued by the server during authentication process and then stored in the client side(eg. cookies or local storage)
+
+userSchema.methods.generateToken = async function(){
+    try {
+        return jwt.sign(
+        {
+            userId: this._id.toString(),
+            email: this.email,
+            isAdmin: this.isAdmin,
+        }, 
+        process.env.JWT_SECRET_KEY,
+        {
+            expiresIn: "30d",
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 //define the model
 const User = new mongoose.model("users", userSchema);
