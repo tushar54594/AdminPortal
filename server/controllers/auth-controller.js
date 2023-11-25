@@ -1,5 +1,5 @@
 const User = require("../models/user-model")
-
+const bcrypt = require("bcryptjs");
 
 const home = async (req, res) => {
 
@@ -18,8 +18,13 @@ const register = async (req, res) => {
         const userExist = await User.findOne({email});
 
         if(userExist){
-            res.json({msg: "email already exits"});
+            return res.json({msg: "email already exits"});
         }
+
+        //hash the password
+        // const saltRound = 10; //greater value, more complex hashing and more time
+        // const hash_password = await bcrypt.hash(password, saltRound);
+        
 
         const userCreated = await User.create({username, email, phone, password});
 
