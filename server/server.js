@@ -4,6 +4,7 @@ const app = express();
 const router = require("./router/auth-router");
 const { connect } = require('mongoose');
 const connectDB = require('./utils/db');
+const errorMiddleware = require("./middlewares/error-middleware");
 
 
 //middleware
@@ -12,6 +13,7 @@ app.use(express.json());
 //to use router in our main app, mount the router at the specific url prefix
 app.use("/api/auth", router);
 
+app.use(errorMiddleware);
 
 // app.get('/', (req, res) => {
 //     res.send("Hello world")
