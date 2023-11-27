@@ -14,12 +14,24 @@ const signupSchema = z.object({
   phone: z
     .string({ required_error: "PhoneNo is required" })
     .trim()
-    .min(10, {message: "PhoneNo must be atleast 10 digits"}),
+    .min(10, { message: "PhoneNo must be atleast 10 digits" }),
   password: z
-    .string({required_error: "Password is required"})
+    .string({ required_error: "Password is required" })
     .trim()
-    .min(7, {message: "Password must be atleast 7 characters"})
-    .max(1024, {message: "Password must be less than 1024 characters"})
+    .min(7, { message: "Password must be atleast 7 characters" })
+    .max(1024, { message: "Password must be less than 1024 characters" }),
 });
 
-module.exports = signupSchema;
+const loginSchema = z.object({
+  email: z
+    .string({ required_error: "Email is required" })
+    .trim()
+    .email({ message: "Invalid email address" }),
+  password: z
+    .string({ required_error: "Password is required" })
+    .trim()
+    .min(7, { message: "Password must be atleast 7 characters" })
+    .max(1024, { message: "Password must be less than 1024 characters" }),
+});
+
+module.exports = { signupSchema, loginSchema };
